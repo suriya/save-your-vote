@@ -1,0 +1,14 @@
+{% extends "voterreg/base.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap %}
+
+{% block title %}Verify your Voter ID details{% endblock %}
+
+{% block content %}
+    <form method="post" class="form-vertical">{% csrf_token %}
+        {{ form|bootstrap }}
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    </form>
+{% endblock %}

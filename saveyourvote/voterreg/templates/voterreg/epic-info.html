@@ -1,0 +1,27 @@
+{% extends "voterreg/base.html" %}
+
+{% block title %}Voter ID Information{% endblock %}
+
+{% block content %}
+    {% if thanks %}
+    Thank you for entering your voter details.
+    {% endif %}
+    {% if voter.first_name %}
+    Unfortunately, could not retrieve information for the voter id.
+    {% endif %}
+    <table>
+         <tr> <td>Voter ID Number</td><td>{{ voter.epic_number }}</td>
+    </tr><tr> <td>Voter's First Name</td><td>{{ voter.voter_first_name }}</td> 
+    </tr><tr> <td>Voter's Last Name</td><td>{{ voter.voter_last_name }}</td>
+    </tr><tr> <td>Voter's Relative's First Name</td><td>{{ voter.relative_first_name }}</td>
+    </tr><tr> <td>Voter's Relative's Last Name </td><td>{{ voter.relative_last_name  }}</td>
+    </tr><tr> <td>Sex</td><td>{{ voter.sex }}</td>
+    </tr><tr> <td>Age</td><td>{{ voter.age }}</td>
+    </tr><tr> <td>Assembly Constituency</td><td>{{ voter.ac_name }}</td>
+    </tr><tr> <td>Assembly Constituency Number</td><td>{{ voter.ac_number }}</td>
+    </tr><tr> <td>Part number (with the constituency)</td><td>{{ voter.part_number }}</td>
+    </tr><tr> <td>Serial number (with the part)</td><td>{{ voter.serial_number }}</td>
+    </tr>
+    </table>
+    The above data was last updated on {{ voter.modify_date }}
+{% endblock %}
