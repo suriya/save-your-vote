@@ -19,6 +19,7 @@ class ExistingVoterForm(forms.ModelForm):
         model = ExistingVoter
         fields = [ 'district', 'epic_number' ]
 
+@login_required
 def epic_new(request):
     # Empty Form
     if request.method != 'POST':
@@ -30,12 +31,13 @@ def epic_new(request):
         return render(request, 'voterreg/epic-new.html', { 'form': form, })
     # Completed form
     voter = form.save(commit=False)
+    voter.created_by = request.user
     voter_with_data = check_karnataka_epic(voter)
     if voter_with_data:
         assert (voter is voter_with_data)
     voter.save()
     form.save_m2m()
-    url = ('%s?thanks=1' % reverse('epic-info', args=[ voter_with_data.pk ]))
+    url = ('%s?thanks=1' % reverse('epic-info', args=[ voter.pk ]))
     return HttpResponseRedirect(url)
 
 def epic_info(request, pk):
@@ -47,7 +49,14 @@ def epic_info(request, pk):
 @login_required
 def epic_delete(request, pk):
     voter = get_object_or_404(ExistingVoter, pk=pk)
-    if (request.user is not voter.user):
+    if (request.user.pk is not voter.created_by.pk):
         raise PermissionDenied
-    voter.delete()
-    return render(request, 'voterreg/epic-delete.html')
+    if request.method == 'POST':
+        voter.delete()
+        voter = None
+    return render(request, 'voterreg/epic-delete.html', { 'voter': voter })
+
+@login_required
+def epic_list(request):
+    voter_list = ExistingVoter.objects.filter(created_by=request.user)
+    return render(request, 'voterreg/epic-list.html', { 'voter_list': voter_list })

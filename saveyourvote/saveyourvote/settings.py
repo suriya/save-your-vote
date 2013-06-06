@@ -2,8 +2,18 @@
 
 import os
 
+SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+FACEBOOK_APP_ID = '668188706540800'
+FACEBOOK_APP_SECRET = 'f2c5e63a081a4eb2ca42fe261eae0400'
+# FACEBOOK_STORE_LOCAL_IMAGE = False
+FACEBOOK_LOGIN_DEFAULT_REDIRECT = '/'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ADMINS = (
     ('Suriya Subramanian', 'suriya@alumni.cs.utexas.edu'),
@@ -14,7 +24,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/suriya/save-your-vote/sqlite3.db',                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(SETTINGS_DIR, '../../sqlite3.db'), # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -52,7 +62,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(SETTINGS_DIR, '../../media/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -94,6 +104,32 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'django_facebook.context_processors.facebook',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django_facebook.auth_backends.FacebookBackend',
+    # 'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+ANONYMOUS_USER_ID = -1
+AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
+
+# LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+# LOGIN_URL = '/accounts/signin/'
+# LOGOUT_URL = '/accounts/signout/'
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -129,6 +165,11 @@ INSTALLED_APPS = (
     'voterreg',
     'crispy_forms',
     'bootstrapform',
+    'django_facebook',
+    # 'userena',
+    'guardian',
+    # 'registration',
+    # 'easy_thumbnails',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -171,6 +212,11 @@ LOGGING = {
             'propagate': True,
         },
         'voterreg.utils': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'open_facebook': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,

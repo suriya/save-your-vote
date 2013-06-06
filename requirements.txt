@@ -1,8 +1,14 @@
 BeautifulSoup==3.0.7a
 Django==1.5.1
+PIL==1.1.7
 beautifulsoup4==4.2.0
 django-bootstrap-form==2.0.6
 django-crispy-forms==1.2.8
+django-facebook==5.2.1
+django-guardian==1.1.1
+django-registration==0.8
+django-userena==1.2.1
+easy-thumbnails==1.2
 feedparser==4.1
 ipython==0.9.1
 mercurial==1.5

@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.conf import settings
 
 class IndianState(models.Model):
     name = models.CharField(max_length=40)
@@ -18,6 +17,7 @@ class IndianDistrict(models.Model):
         return u'%s, %s' % (self.name, unicode(self.state))
 
 class ExistingVoter(models.Model):
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
     # user = ...
     create_date = models.DateTimeField(auto_now_add=True)
     modify_date = models.DateTimeField(auto_now=True)

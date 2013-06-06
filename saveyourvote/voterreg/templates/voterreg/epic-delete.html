@@ -1,0 +1,17 @@
+{% extends "voterreg/base.html" %}
+
+{% block title %}Delete Voter ID Information{% endblock %}
+
+{% block content %}
+{% if voter %}
+    Are you sure you want to delete Voter ID {{ voter.epic_number }}?
+
+    <form method="post" action="{% url "epic-delete" voter.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" type="button">Really delete</button>
+    </form>
+{% else %}
+    Deleted the Voter's details. Click here to the visit the
+    <a href="{% url "epic-list" %}">home page</a>.
+{% endif %}
+{% endblock %}

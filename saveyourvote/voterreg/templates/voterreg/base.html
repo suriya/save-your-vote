@@ -7,10 +7,46 @@
 </head>
 
 <body>
-    <div class="span12 text-center">
-        <div id="content">
-            {% block content %}{% endblock %}
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="#" class="brand">Project name</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        {% if user %}
+            <ul class="nav pull-right">
+                <li><a id="username" href="#">{{ user.first_name }} {{user.last_name }}</a></li>
+            </ul>
+        {% else %}
+        <form class="navbar-form pull-right">
+          {% csrf_token %}
+          <input id="id_username" placeholder="User name" maxlength="254" name="username" type="text" class="span2"/>
+          <input id="id_password" placeholder="Password" name="password" type="password" class="span2"/> 
+          <button class="btn" type="submit">Sign in</button>
+        </form>
+        {% endif %}
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="span12 text-center">
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
         </div>
     </div>
+</div>
 </body>
 </html>
