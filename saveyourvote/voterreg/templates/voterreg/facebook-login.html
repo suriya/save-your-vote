@@ -1,0 +1,32 @@
+{% extends "voterreg/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="row spacer"><div class="span6 offset3 text-center">
+
+<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+    <a href="javascript:void(0);"><img src="{% static "images/b_signin_facebook_medium.png" %}"
+        alt="Sign in using Facebook"
+        onclick="F.connect(this.parentNode.parentNode);" /></a>
+    <input type="hidden" value="{{ next }}" name="next" />
+    <input type="hidden" value="{{ next }}" name="register_next" />
+    <input type="hidden" value="{{ next }}" name="error_next" />
+    {% csrf_token %}
+ </form>
+
+<!--
+<small>
+We recommend that you use a Facebook account to login. If you prefer
+not to use a Facebook account, you can login by entering a username and
+password <a href="{% url 'auth_login' %}?next={{ next }}">here</a>. <br />
+<br />
+If you do not have an account, create a new account <a href="{% url 'registration_register' %}">here</a>. <br/ >
+<br />
+If you have forgotten your password, click <a href="{% url 'auth_password_reset' %}">here</a>.
+</small>
+-->
+
+</div>
+
+{% endblock %}

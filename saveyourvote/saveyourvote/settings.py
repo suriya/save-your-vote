@@ -6,8 +6,16 @@ SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 FACEBOOK_APP_ID = '668188706540800'
 FACEBOOK_APP_SECRET = 'f2c5e63a081a4eb2ca42fe261eae0400'
-# FACEBOOK_STORE_LOCAL_IMAGE = False
+FACEBOOK_STORE_LOCAL_IMAGE = False
 FACEBOOK_LOGIN_DEFAULT_REDIRECT = '/'
+# FACEBOOK_DEBUG_REDIRECTS = True
+FACEBOOK_REGISTRATION_BACKEND = 'voterreg.registration_backends.VoterregRegistrationBackend'
+
+LOGIN_URL = '/facebook-login/'
+RECAPTCHA_PUBLIC_KEY = '6Lf7jeISAAAAAJmbwUYyPvJ62vc_0Do-FmvoXMUs'
+RECAPTCHA_PRIVATE_KEY = '6Lf7jeISAAAAAJlBBugurxg47KOUx495Xr7lmwRx'
+RECAPTCHA_USE_SSL = True
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -136,6 +144,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -162,6 +171,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'django.contrib.humanize',
+    'django.contrib.flatpages',
     'voterreg',
     'crispy_forms',
     'bootstrapform',
@@ -170,6 +181,7 @@ INSTALLED_APPS = (
     'guardian',
     # 'registration',
     # 'easy_thumbnails',
+    'captcha',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -211,7 +223,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'voterreg.utils': {
+        'voterreg': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,

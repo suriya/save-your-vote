@@ -1,4 +1,5 @@
 {% extends "voterreg/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
 
@@ -23,8 +24,10 @@
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
+<div>
 If you do not have an account, create a new account <a href="{% url 'registration_register' %}">here</a>. <br/ >
 
 If you have forgotten your password, click <a href="{% url 'auth_password_reset' %}">here</a>.
+</div>
 
 {% endblock %}

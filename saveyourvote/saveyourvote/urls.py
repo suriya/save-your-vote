@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from voterreg.views import facebook_login
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -17,6 +18,7 @@ urlpatterns = patterns('',
 
     url(r'^facebook/', include('django_facebook.urls')),
     url(r'^accounts/', include('django_facebook.auth_urls')),
+    url(r'^facebook-login/', facebook_login, name='facebook-login'),
     # url(r'^accounts/', include('userena..urls')),
     # url(r'^accounts/', include('registration.backends.default.urls')),
 )

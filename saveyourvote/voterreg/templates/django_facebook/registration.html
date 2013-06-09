@@ -1,0 +1,20 @@
+{% extends "voterreg/base.html" %}
+
+{% block title %}Register to create a new user account{% endblock %}
+    
+{% block customjs %}
+<style>
+    #recaptcha_area, #recaptcha_table { line-height: 0!important; }
+</style>
+{% endblock %}
+{% block content %}
+We recommend that you use Facebook for a simpler registration process. You
+can do so <a href="{% url 'facebook-login' %}">here</a>.
+
+<table>
+    <form method='post' action=''>{% csrf_token %}
+        {{ form }}
+        <tr><td></td><td><input type="submit" value="Signup" /></td>
+    </form>
+</table>
+{% endblock %}

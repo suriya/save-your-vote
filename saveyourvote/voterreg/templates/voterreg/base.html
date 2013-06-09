@@ -1,13 +1,33 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <!--
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save your Vote : {% block title %}My amazing site{% endblock %}</title>
+    <link href="{{ STATIC_URL }}css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+    {% block customjs %}{% endblock %}
+    <style>
+    body {
+      padding-top: 60px;
+    }
+    @media (max-width: 979px) {
+      body {
+        padding-top: 0px;
+      }
+    }
+     .spacer {  margin-top: 20px; }
+    </style>
 </head>
 
 <body>
-<div class="navbar">
+<div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
       <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
@@ -15,38 +35,47 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="#" class="brand">Project name</a>
+      <a href="/" class="brand">Save your Vote</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="/">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        {% if user %}
-            <ul class="nav pull-right">
-                <li><a id="username" href="#">{{ user.first_name }} {{user.last_name }}</a></li>
+
+        {% if user and user.is_authenticated %}
+        <ul class="nav pull-right">
+          <li class="dropdown" id="fat-menu">
+            <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="drop3" href="#"> 
+              {% if user.facebook_id %}
+                <!-- <img src="https://graph.facebook.com/{{ user.facebook_id }}/picture?width=10&height=10" /> --> {{ user.first_name }} {{ user.last_name }}
+              {% else %}
+                {{ user.email }}
+              {% endif %}
+            <b class="caret"></b></a>
+            <ul aria-labelledby="drop3" role="menu" class="dropdown-menu">
+              <li role="presentation"><a href="{% url 'auth_logout' %}" tabindex="-1" role="menuitem">Logout</a></li>
             </ul>
+          </li>
+        </ul>
         {% else %}
-        <form class="navbar-form pull-right">
-          {% csrf_token %}
-          <input id="id_username" placeholder="User name" maxlength="254" name="username" type="text" class="span2"/>
-          <input id="id_password" placeholder="Password" name="password" type="password" class="span2"/> 
-          <button class="btn" type="submit">Sign in</button>
-        </form>
+          <ul class="nav pull-right"><li><a href="{% url 'facebook-login' %}">Sign in with Facebook</a></li></ul>
         {% endif %}
-      </div><!--/.nav-collapse -->
+      </div>
+ <!--/.nav-collapse -->
     </div>
   </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="span12 text-center">
+        <div class="span12">
             <div class="content">
                 {% block content %}{% endblock %}
             </div>
         </div>
     </div>
 </div>
+{% include 'django_facebook/_facebook_js.html' %}
 </body>
 </html>

@@ -1,27 +1,51 @@
 {% extends "voterreg/base.html" %}
+{% load tz %}
+{% load humanize %}
 
 {% block title %}Voter ID Information{% endblock %}
 
 {% block content %}
-    {% if thanks %}
-    Thank you for entering your voter details.
-    {% endif %}
-    {% if voter.first_name %}
-    Unfortunately, could not retrieve information for the voter id.
-    {% endif %}
-    <table>
-         <tr> <td>Voter ID Number</td><td>{{ voter.epic_number }}</td>
-    </tr><tr> <td>Voter's First Name</td><td>{{ voter.voter_first_name }}</td> 
-    </tr><tr> <td>Voter's Last Name</td><td>{{ voter.voter_last_name }}</td>
-    </tr><tr> <td>Voter's Relative's First Name</td><td>{{ voter.relative_first_name }}</td>
-    </tr><tr> <td>Voter's Relative's Last Name </td><td>{{ voter.relative_last_name  }}</td>
-    </tr><tr> <td>Sex</td><td>{{ voter.sex }}</td>
-    </tr><tr> <td>Age</td><td>{{ voter.age }}</td>
-    </tr><tr> <td>Assembly Constituency</td><td>{{ voter.ac_name }}</td>
-    </tr><tr> <td>Assembly Constituency Number</td><td>{{ voter.ac_number }}</td>
-    </tr><tr> <td>Part number (with the constituency)</td><td>{{ voter.part_number }}</td>
-    </tr><tr> <td>Serial number (with the part)</td><td>{{ voter.serial_number }}</td>
-    </tr>
-    </table>
-    The above data was last updated on {{ voter.modify_date }}
+    <div class="row"><div class="span6 offset3">
+        {% if thanks %}
+            Thank you for adding a new voter record that will be watched for
+            incorect deletions. <br /> <br />
+        {% endif %}
+        Here's the <a href="{% url 'epic-list' %}">list of voters</a> that
+        you have added. You can add a new voter
+        <a href="{% url 'epic-new' %}">here</a>. <br /><br />
+    </div></div>
+
+    <div class="row">
+    <div class="span6 offset3">
+        <table class="table table-bordered">
+        {% if voter.status_message %}
+            <tr class="error"> <td style="text-align: center;" colspan="2"> {{ voter.status_message }} </td></tr>
+        {% else %}
+            {% if not voter.voter_first_name and not voter.voter_last_name %}
+                <tr class="error"> <td style="text-align: center;" colspan="2">
+                    We are unable to retrive the voter record and do not
+                    know why. We will take a look into this.</td></tr>
+            {% else %}
+                <tr class="success"> <td style="text-align: center;" colspan="2">
+                    Successfully retrived voter record from the Chief
+                    Election Commissioner's website.</td></tr>
+            {% endif %}
+        {% endif %}
+             <tr> <td>Voter ID Number</td><td>{{ voter.epic_number }}</td>
+        </tr><tr> <td>Voter's First Name</td><td>{{ voter.voter_first_name }}</td> 
+        </tr><tr> <td>Voter's Last Name</td><td>{{ voter.voter_last_name }}</td>
+        </tr><tr> <td>Voter's Relative's First Name</td><td>{{ voter.relative_first_name }}</td>
+        </tr><tr> <td>Voter's Relative's Last Name </td><td>{{ voter.relative_last_name  }}</td>
+        </tr><tr> <td>Sex</td><td>{{ voter.sex }}</td>
+        </tr><tr> <td>Age</td><td>{{ voter.age }}</td>
+        </tr><tr> <td>Assembly Constituency</td><td>{{ voter.ac_name }}</td>
+        </tr><tr> <td>Assembly Constituency Number</td><td>{{ voter.ac_number }}</td>
+        </tr><tr> <td>Part number (within the constituency)</td><td>{{ voter.part_number }}</td>
+        </tr><tr> <td>Serial number (within the part)</td><td>{{ voter.serial_number }}</td>
+        </tr><tr class="info"> <td style="text-align: center;" colspan="2">Updated on {{ voter.modify_date|timezone:"Asia/Calcutta" }}
+                               ({{ voter.modify_date|naturaltime }})</td>
+        </tr>
+        </table>
+    </div>
+    </div>
 {% endblock %}

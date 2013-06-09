@@ -21,7 +21,8 @@ class ExistingVoter(models.Model):
     # user = ...
     create_date = models.DateTimeField(auto_now_add=True)
     modify_date = models.DateTimeField(auto_now=True)
-    epic_number = models.CharField(max_length=20)
+    epic_number = models.CharField(max_length=20,
+            help_text='Voter identity card number the format ABC1234567')
     district = models.ForeignKey(IndianDistrict)
     ac_number = models.CharField("Assembly Constituency number", max_length=20)
     ac_name = models.CharField("Assembly Constituency name", max_length=200)
@@ -33,6 +34,7 @@ class ExistingVoter(models.Model):
     relative_last_name = models.CharField("Last name (Relative)", max_length=200)
     sex = models.CharField("Sex", max_length=20)
     age = models.CharField("Age", max_length=20)
+    status_message = models.TextField("Status message")
 
     def __unicode__(self):
         return self.epic_number

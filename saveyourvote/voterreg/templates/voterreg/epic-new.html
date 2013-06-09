@@ -4,11 +4,39 @@
 
 {% block title %}Verify your Voter ID details{% endblock %}
 
+{% block customjs %}
+  <script>
+    var districtJson;
+    $.getJSON('{% url 'district-list' %}', function(data) {
+      districtJson = data;
+    });
+    $(document).ready(function() {
+      $('#id_state').change(function() {
+        var state_id = this.value;
+        console.log("Selected state ", state_id);
+        var $districtInput = $('#id_district');
+        $districtInput.empty();
+        $districtInput.append($("<option></option>").attr("value", "").attr("selected", "selected").text("---------"));
+        $.each(districtJson.districts, function(i, district) {
+          if (district.state_id == state_id) {
+            var text = district.name + ", " + district.state_name + " (" + district.state_shortcode + ")";
+            $districtInput.append($("<option></option>").attr("value", district.pk).text(text));
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}
+
 {% block content %}
-    <form method="post" class="form-vertical">{% csrf_token %}
-        {{ form|bootstrap }}
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Submit" />
-        </div>
-    </form>
+  <div class="row">
+    <div class="span6 offset3">
+      <form method="post" class="form-horizontal">{% csrf_token %}
+          {{ form|bootstrap }}
+          <div class="text-center form-actions" style="padding-left: 0px;">
+              <input type="submit" class="btn btn-primary" value="Create new Voter Record" />
+          </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}

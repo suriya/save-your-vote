@@ -3,8 +3,9 @@
 {% block title %}Delete Voter ID Information{% endblock %}
 
 {% block content %}
+<div class="row"><div class="span6 offset3 text-center">
 {% if voter %}
-    Are you sure you want to delete Voter ID {{ voter.epic_number }}?
+    Are you sure you want to delete Voter ID <a href="{% url 'epic-info' voter.pk %}">{{ voter.epic_number }}</a>? <br /> <br />
 
     <form method="post" action="{% url "epic-delete" voter.pk %}">
         {% csrf_token %}
@@ -14,4 +15,5 @@
     Deleted the Voter's details. Click here to the visit the
     <a href="{% url "epic-list" %}">home page</a>.
 {% endif %}
+</div>
 {% endblock %}
