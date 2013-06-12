@@ -53,11 +53,11 @@ for state in states:
     print state_name
     stateobj = get_state_object(state_name)
     print stateobj
-    if stateobj.name == 'Karnataka':
+    if stateobj.shortcode in [ 'KA', 'UP' ]:
         continue
     districts = get_districts(state)
     for d in sorted(districts):
-        districtobj = IndianDistrict(state=stateobj, name=d, number=0)
+        districtobj = IndianDistrict(state=stateobj, name=d)
         districtobj.save()
         print '    ', districtobj
     print "====================================="

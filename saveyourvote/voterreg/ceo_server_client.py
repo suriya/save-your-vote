@@ -46,6 +46,36 @@ Communicate with the Chief Electoral Officer's websites of various states.
   "voter_last_name": "Sandhiya", 
   "voter_name": "Sandhiya"
 }
+>>> d = UP_Client.get_voter_info('09', 'KYC1817881')
+>>> print json.dumps(d, sort_keys=True, indent=2)
+{
+  "ac_number": "73", 
+  "age": "75", 
+  "part_number": "1", 
+  "relative_first_name": "", 
+  "relative_last_name": "Chandrapal", 
+  "relative_name": "Chandrapal", 
+  "serial_number": "46", 
+  "sex": "M", 
+  "voter_first_name": "Gokul", 
+  "voter_last_name": "Singh", 
+  "voter_name": "Gokul Singh"
+}
+>>> d = UP_Client.get_voter_info('09', 'UP/75/372/0138500')
+>>> print json.dumps(d, sort_keys=True, indent=2)
+{
+  "ac_number": "73", 
+  "age": "62", 
+  "part_number": "1", 
+  "relative_first_name": "Vasadev", 
+  "relative_last_name": "Singh", 
+  "relative_name": "Vasadev Singh", 
+  "serial_number": "52", 
+  "sex": "M", 
+  "voter_first_name": "Shyodan", 
+  "voter_last_name": "Singh", 
+  "voter_name": "Shyodan Singh"
+}
 """
 
 from bs4 import BeautifulSoup
@@ -67,8 +97,9 @@ class ConnectionError(CEOClientException):
     MESSAGE = textwrap.dedent(
     """
     Unable to connect to the Chief Election Commissioner's website.
-    Probably the site is down. We will try connecting later and updating
-    the record.
+    Probably the site is down. We will try connecting later and update this
+    record. You do not have to do anything about this. Once we update the
+    record we will notify you.
     """)
 
 class FailedToParseError(CEOClientException):
@@ -77,14 +108,16 @@ class FailedToParseError(CEOClientException):
     Received a response from the Chief Election Commissioner's website, but
     unable to retrive the correct data. It could be that the Voter ID given
     is incorrect. We will look to see if this is an error on our part, and
-    if so, update the record.
+    if so, update the record. If entered Voter ID is incorect, delete this
+    entry.
     """)
 
 class UnsupportedState(CEOClientException):
     MESSAGE = textwrap.dedent(
     """
     Save Your Vote is yet to implement support for your state. We will get
-    to it as soon as possible and update this record.
+    to it as soon as possible and update this record. We will notify you
+    once we obtain information from the Election Commissioner's website.
     """)
 
 class CEOClient:
@@ -180,6 +213,15 @@ class CEOClient:
         data['relative_last_name'] = relative_last_name
         return data
 
+    @classmethod
+    def getField(klass, td):
+        font = td.font
+        if not font:
+            return None
+        else:
+            return font.get_text()
+
+
 
 class KA_Client(CEOClient):
     CEO_URL = 'http://www.ceokarnataka.kar.nic.in/SearchWithEpicNo_New.aspx'
@@ -210,14 +252,6 @@ class KA_Client(CEOClient):
             'ctl00$ContentPlaceHolder1$txtEpic': epic_string,
             'ctl00$ContentPlaceHolder1$btnSearch': 'Search',
         }
-
-    @classmethod
-    def getField(klass, td):
-        font = td.font
-        if not font:
-            return None
-        else:
-            return font.get_text()
 
     @classmethod
     def parse_html_data(klass, html):
@@ -271,14 +305,6 @@ class DL_Client(CEOClient):
             'ctl00$ContentPlaceHolder1$TextBoxIDCardNo': epic_string,
             'ctl00$ContentPlaceHolder1$ButtonSearch': 'Search',
         }
-
-    @classmethod
-    def getField(klass, td):
-        font = td.font
-        if not font:
-            return None
-        else:
-            return font.get_text()
 
     @classmethod
     def parse_html_data(klass, html):
@@ -348,8 +374,61 @@ class TN_Client(CEOClient):
         data = klass.cleanup_names(data)
         return data
 
+class UP_Client(CEOClient):
+    CEO_URL = 'http://164.100.180.4/searchengine/SearchEngineEnglish.aspx'
+    VIEWSTATE = "/wEPDwUJNjUyOTU0ODk1D2QWAgIBD2QWEAIBDxBkZBYBZmQCAw8QDxYGHg5EYXRhVmFsdWVGaWVsZAULRGlzdHJpY3RfSUQeDURhdGFUZXh0RmllbGQFEERpc3RyaWN0X05hbWVfRW4eC18hRGF0YUJvdW5kZ2QQFUwKLS1TZWxlY3QtLQRBZ3JhB0FsaWdhcmgJQWxsYWhhYmFkDkFtYmVka2FyIE5hZ2FyBkFtZXRoaQZBbXJvaGEHQXVyYWl5YQhBemFtZ2FyaAdCYWdocGF0CUJhaGFyYWljaAVCYWxpYQlCYWxyYW1wdXIFQmFuZGEJQmFyYWJhbmtpCEJhcmVpbGx5BUJhc3RpBkJpam5vcgZCdWRhdW4LQnVsYW5kc2FoYXIJQ2hhbmRhdWxpCkNoaXRyYWtvb3QGRGVvcmlhBEV0YWgGRXRhd2FoCEZhaXphYmFkC0ZhcnJ1a2hhYmFkCEZhdGVocHVyCUZpcm96YWJhZBNHYXV0YW0gQnVkZGhhIE5hZ2FyCUdoYXppYWJhZAhHaGF6aXB1cgVHb25kYQlHb3Jha2hwdXIISGFtaXJwdXIFSGFwdXIGSGFyZG9pB0hhdGhyYXMGSmFsYXVuB0phdW5wdXIGSmhhbnNpB0thbm5hdWoMS2FucHVyIERlaGF0DEthbnB1ciBOYWdhcgdLYXNnYW5qCUthdXNoYW1iaQVLaGVyaQpLdXNoaW5hZ2FyCExhbGl0cHVyB0x1Y2tub3cLTWFoYXJhamdhbmoGTWFob2JhB01hbnB1cmkHTWF0aHVyYQNNYXUGTWVlcnV0CE1pcnphcHVyCU1vcmFkYWJhZA1NdXphZmZhcm5hZ2FyCFBpbGliaGl0ClByYXRhcGdhcmgKUmFlIEJhcmVsaQZSYW1wdXIKU2FoYXJhbnB1cgdTYW1iaGFsEFNhbnQgS2FiaXIgTmFnYXISU2FudCBSYXZpZGFzIE5hZ2FyDFNoYWhqYWhhbnB1cgZTaGFtbGkJU2hyYXdhc3RpDlNpZGRoYXJ0aG5hZ2FyB1NpdGFwdXIJU29uYmhhZHJhCVN1bHRhbnB1cgVVbm5hbwhWYXJhbmFzaRVMCi0tU2VsZWN0LS0CMDgCMDkCMjkCNzACNzICMjICMjgCNDcCMDcCNjQCNDkCNjUCMzgCNjkCMTUCNTQCMjECMTYCMDUCNDMCMzkCNTICMTMCMjUCNjcCMjYCMzACMTECMDYCMDQCNDICNjMCNTACMzYCNzMCNjECMTQCMzUCNDECMzMCMjcCMjQCMjMCNzECMzICNjICNTMCMzQCNTcCNTECMzcCMTICMTACNDgCMDMCNDQCMTkCMDICMTgCMzECNTkCMjACMDECNzUCNTYCNDYCMTcCNzQCNjYCNTUCNjACNDUCNjgCNTgCNDAUKwNMZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZxYBAgJkAgUPFgIeB1Zpc2libGVoFgICAg9kFgICAQ8QZGQWAGQCBw8WAh8DaBYCAgIPZBYCAgEPDxYCHgRUZXh0ZWRkAgkPFgIfA2cWAgIBD2QWBgIBDxBkZBYBZmQCCw8PFgQfBAUETmFtZR8DaGRkAg0PDxYEHwRlHwNoZGQCDQ8PFgIfBAUXVG90YWwgMSByZWNvcmQocykgZm91bmRkZAIPDzwrAA0BAA8WBh8DZx8CZx4LXyFJdGVtQ291bnQCAWQWAmYPZBYGAgEPZBYYZg9kFgJmDw8WAh4LTmF2aWdhdGVVcmwFKVZvdGVyU2xpcC5hc3B4P01vaGFsbGE9MCZYPTY0MzA1NSZBQ05PPTczZGQCAQ8PFgIfBAUCNzNkZAICDw8WAh8EBQExZGQCAw8PFgIfBAUBMWRkAgQPDxYCHwQFAjQ2ZGQCBQ8PFgIfBAULR29rdWwgU2luZ2hkZAIGDw8WAh8EBRzgpJfgpYvgpJXgpYHgpLIg4KS44KS/4KSC4KS5ZGQCBw8PFgIfBAUKQ2hhbmRyYXBhbGRkAggPDxYCHwQFG+CkmuCkqOCljeCkpuCljeCksOCkquCkvuCksmRkAgkPDxYCHwQFAjc1ZGQCCg8PFgIfBAUBTWRkAgsPDxYCHwQFCktZQzE4MTc4ODFkZAICDw8WAh8DaGRkAgMPDxYCHwNoZGQCEQ88KwANAQAPFgIfA2hkZBgCBQhTZWFyY2hnZA9nZAUOZ3ZTZWFyY2hSZXN1bHQPPCsACgEIAgFkyXlMqlyzSbkGqNYNL+Z3nEmvcyU="
+    EVENTVALIDATION = "/wEWVwKThrHQCwKC8MqlAwKd8MqlAwKc8MqlAwKSn+DLDwKHlN6LCAKl2dH/DQKX+9TlBAKX+9jlBAKJ+9jlBAKO+7TmBAKO+7zmBAKJ+7zmBAKJ+9TlBAKL+5DmBAKX+5DmBAKN+4TmBAKL+9jlBAKN+4jmBAKK+9TlBAKN+9jlBAKI+4jmBAKM+4TmBAKJ+7jmBAKI+4zmBAKX+4jmBAKL+4DmBAKK+9jlBAKM+7zmBAKI+4DmBAKJ+4jmBAKN+5DmBAKJ+4zmBAKK+7TmBAKI+7jmBAKX+4zmBAKX+4TmBAKL+7zmBAKN+4DmBAKM+7TmBAKK+4zmBAKO+4DmBAKN+7jmBAKI+4TmBAKK+4jmBAKL+7jmBAKK+4DmBAKJ+5DmBAKJ+4TmBAKJ+4DmBAKO+7jmBAKK+7zmBAKN+7zmBAKM+4DmBAKK+4TmBAKM+5DmBAKM+7jmBAKK+5DmBAKI+7zmBAKI+7TmBAKL+9TlBAKX+4DmBAKL+4TmBAKI+9jlBAKX+7zmBAKI+9TlBAKK+7jmBAKM+9jlBAKJ+7TmBAKX+7jmBAKO+4jmBAKM+4zmBAKL+4zmBAKI+5DmBAKO+4TmBAKN+4zmBAKM+4jmBAKN+7TmBAKL+4jmBAKN+9TlBAKM+9TlBAKL+7TmBAL7r+tjAuSv62MC68DBjQwCms+Z+QwCjOeKxgas4mGQiSAl4/FuhL6tdC4L8nPtrA=="
+
+    FIELDS = [
+        None, # image
+        'ac_number',
+        'part_number',
+        None, # section number
+        'serial_number',
+        'voter_name',
+        None, # Hindi voter_name
+        'relative_name',
+        None, # Hindi relative_name
+        'age',
+        'sex',
+        None, # epic_number
+    ]
+
+    @classmethod
+    def request_params(klass, district_number, epic_string):
+        return {
+            '__EVENTTARGET': '',
+            '__EVENTARGUMENT': '',
+            '__LASTFOCUS': '',
+            '__VIEWSTATE': klass.VIEWSTATE,
+            '__EVENTVALIDATION': klass.EVENTVALIDATION,
+            'RdlSearch': 0,
+            'ddlDistricts': district_number,
+            'RdlSearchBy': 0,
+            'txtEPICNo': epic_string,
+            'Button1': 'Search',
+        }
+
+    @classmethod
+    def parse_html_data(klass, html):
+        """
+        Parse Uttar Pradesh CEO website's response and return a dictionary of
+        various fields. If parsing fails, raise exception
+        """
+        html = re.sub(r'<.-- with htc -->', '', html)
+        soup = BeautifulSoup(html)
+        table = soup.find('table', { 'id' : 'gvSearchResult' })
+        trs = table.findAll('tr')
+        tds = trs[1].findAll('td')
+        if len(tds) != len(klass.FIELDS):
+            return FailedToParseError()
+        data = { key: klass.getField(td) for (key, td) in zip(klass.FIELDS, tds) if key }
+        data = klass.cleanup_names(data)
+        return data
+
 CEO_CLIENTS = {
     'KA': KA_Client,
     'DL': DL_Client,
     'TN': TN_Client,
+    'UP': UP_Client,
 }

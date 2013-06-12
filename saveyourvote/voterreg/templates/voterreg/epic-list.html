@@ -13,11 +13,10 @@
     {% if voter_list %}
         <h2> List of voter records </h2>
         <table class="table table-striped">
-            <tr><th>EPIC Number</th><th>Constituency</th><th>First
-                    Name</th><th>Last Name</th><th>Actions</th></tr>
+            <tr><th>EPIC Number</th><th>Constituency</th><th>Name</th><th>Actions</th></tr>
             {% for voter in voter_list %}
-            <tr><td>{{ voter.epic_number }}</td><td>{{ voter.ac_name }}</td>
-                <td>{{ voter.voter_first_name }}</td><td>{{ voter.voter_last_name }}</td>
+            <tr><td>{{ voter.epic_number }}</td><td>{{ voter.ac_name }} {{ voter.ac_number }}</td>
+                <td>{{ voter.voter_first_name }} {{ voter.voter_last_name }}</td>
                 <td>
                     <a href="{% url "epic-info" voter.pk %}"><button
                             class="btn btn-mini btn-primary" type="button">Info</button></a>

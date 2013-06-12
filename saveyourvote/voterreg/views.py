@@ -86,3 +86,6 @@ def district_list(request):
                   } for d in IndianDistrict.objects.all() ]
     dictionary = { 'districts': districts }
     return HttpResponse(json.dumps(dictionary, indent=2), mimetype="application/json")
+
+def home_page(request):
+    return render(request, 'voterreg/home-page.html', { 'next': reverse('epic-new') })

@@ -13,20 +13,11 @@
     <title>Save your Vote : {% block title %}My amazing site{% endblock %}</title>
     <link href="{{ STATIC_URL }}css/facebook.css" type="text/css" rel="stylesheet" media="all" />
     {% block customjs %}{% endblock %}
-    <style>
-    body {
-      padding-top: 60px;
-    }
-    @media (max-width: 979px) {
-      body {
-        padding-top: 0px;
-      }
-    }
-     .spacer {  margin-top: 20px; }
-    </style>
+    {% include 'voterreg/style.css' %}
 </head>
 
 <body>
+<div id="wrap">
 <div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
@@ -38,8 +29,9 @@
       <a href="/" class="brand">Save your Vote</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="#about">About</a></li>
+            <!-- class="active" -->
+          <li><a href="{% url "epic-list" %}">Saved Voter List</a></li>
+          <li><a href="/fp/faq/">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -74,6 +66,15 @@
                 {% block content %}{% endblock %}
             </div>
         </div>
+    </div>
+</div>
+
+<div id="push"></div>
+</div>
+
+<div id="footer">
+    <div class="text-center container">
+        <p class="footer-text">Copyright &copy; 2013 Save Your Vote.</p>
     </div>
 </div>
 {% include 'django_facebook/_facebook_js.html' %}

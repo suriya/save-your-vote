@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from fields import EPICNumberField
 
 class IndianState(models.Model):
     name = models.CharField(max_length=40)
@@ -11,7 +12,7 @@ class IndianState(models.Model):
 class IndianDistrict(models.Model):
     state = models.ForeignKey(IndianState)
     name = models.CharField(max_length=40)
-    number = models.IntegerField()
+    number = models.CharField(max_length=40)
 
     def __unicode__(self):
         return u'%s, %s' % (self.name, unicode(self.state))
@@ -21,8 +22,8 @@ class ExistingVoter(models.Model):
     # user = ...
     create_date = models.DateTimeField(auto_now_add=True)
     modify_date = models.DateTimeField(auto_now=True)
-    epic_number = models.CharField(max_length=20,
-            help_text='Voter identity card number the format ABC1234567')
+    epic_number = EPICNumberField(max_length=20,
+            help_text='Voter ID number: new format ABC1234567, or old format UP/75/372/0138500')
     district = models.ForeignKey(IndianDistrict)
     ac_number = models.CharField("Assembly Constituency number", max_length=20)
     ac_name = models.CharField("Assembly Constituency name", max_length=200)

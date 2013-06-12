@@ -29,14 +29,26 @@
 {% endblock %}
 
 {% block content %}
+  <div class="text-center page-header"> <h1>Save voter information</h1> </div>
   <div class="row">
-    <div class="span6 offset3">
-      <form method="post" class="form-horizontal">{% csrf_token %}
-          {{ form|bootstrap }}
-          <div class="text-center form-actions" style="padding-left: 0px;">
-              <input type="submit" class="btn btn-primary" value="Create new Voter Record" />
-          </div>
-      </form>
+    <div class="span5 offset1">
+        <p class="lead">
+        Save a voter's information in this page. We will record this
+        information and notify you to help ensure that your voter details
+        do not get deleted.
+        </p>
+        
+        <form method="post" class="form-horizontal">{% csrf_token %}
+            {{ form|bootstrap }}
+            <div class="text-center form-actions" style="padding-left: 0px;">
+                <input type="submit" class="btn btn-primary" value="Create new Voter Record" />
+            </div>
+        </form>
+    </div>
+    <div class="text-center span5">
+        <p class="lead">Finding your Voter ID number.</p>
+
+        <img id="hello" class="text-center" src="{{ STATIC_URL }}voterreg/images/rsz_voter-id-card-sample.png" />
     </div>
   </div>
 {% endblock %}

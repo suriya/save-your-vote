@@ -1,0 +1,14 @@
+<form class="text-center" action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+    <button class="btn btn-primary btn-large" type="button"
+        onclick="F.connect(this.parentNode);">
+        {% if login_button_text %}
+            {{ login_button_text }}
+        {% else %}
+            Sign in with Facebook
+        {% endif %}
+    </button>
+    <input type="hidden" value="{{ next }}" name="next" />
+    <input type="hidden" value="{{ next }}" name="register_next" />
+    <input type="hidden" value="{{ next }}" name="error_next" />
+    {% csrf_token %}
+</form>

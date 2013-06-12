@@ -5,15 +5,7 @@
 
 <div class="row spacer"><div class="span6 offset3 text-center">
 
-<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-    <a href="javascript:void(0);"><img src="{% static "images/b_signin_facebook_medium.png" %}"
-        alt="Sign in using Facebook"
-        onclick="F.connect(this.parentNode.parentNode);" /></a>
-    <input type="hidden" value="{{ next }}" name="next" />
-    <input type="hidden" value="{{ next }}" name="register_next" />
-    <input type="hidden" value="{{ next }}" name="error_next" />
-    {% csrf_token %}
- </form>
+{% include "voterreg/facebook-login-button.html" %}
 
 <!--
 <small>

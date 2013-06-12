@@ -37,12 +37,10 @@ DISTRICTS = [
     (35, 'YADGIR'),
 ]
 
-DISTRICTS = [ (y,x) for (x,y) in DISTRICTS ]
-
 KA = IndianState.objects.get(shortcode='KA')
 
-for name, number in DISTRICTS:
+for number, name in DISTRICTS:
     name = string.capwords(name)
-    district = IndianDistrict(state=KA, name=name, number=number)
+    district = IndianDistrict(state=KA, name=name, number=str(number))
     district.save()
     print district
