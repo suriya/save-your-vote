@@ -15,7 +15,6 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from utils import check_karnataka_epic
 from django.contrib.auth import REDIRECT_FIELD_NAME
-# ZBG6433064
 
 class ExistingVoterForm(forms.ModelForm):
     state = forms.ModelChoiceField(queryset=IndianState.objects.all())

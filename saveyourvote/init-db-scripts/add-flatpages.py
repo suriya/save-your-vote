@@ -10,6 +10,10 @@ import textwrap
 FlatPage.objects.all().delete()
 
 site = Site.objects.get(pk=settings.SITE_ID)
+site.domain = 'saveyourvote.in'
+site.name = 'Save Your Vote'
+site.save()
+
 PAGES = [
 ('/fp/the-missing-voter/', "The missing voter", textwrap.dedent("""
 
@@ -65,12 +69,14 @@ send your notification emails such as the date of election, your polling
 booth, etc. In any case, we will let you opt out of any e-mail from us.
 </dd>
 
+<!--
 <dt> 3. Will you have advertising on the site? </dt>
 <dd>
 Maybe, in order to pay for our hosting costs.
 </dd>
+-->
 
-<dt> 4. Why aren't all states supported at the moment? </dt>
+<dt> 3. Why aren't all states supported at the moment? </dt>
 <dd>
 At the moment, we support Delhi, Karnataka, Tamil Nadu, and Uttar Pradesh.
 It is a matter of time before we get to support other states as well.
@@ -80,6 +86,8 @@ If you are a developer you can contribute to our source code to quickly
 support all the states in India.
 </dd>
 </dl>
+
+If you have more questions, feel free to leave a message below.
 
 """)),
 ('/', 'Home Page', textwrap.dedent("""
