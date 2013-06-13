@@ -1,45 +1,51 @@
 # Django settings for saveyourvote project.
 
 import os
+import private_settings
 
 SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-FACEBOOK_APP_ID = '668188706540800'
-FACEBOOK_APP_SECRET = 'f2c5e63a081a4eb2ca42fe261eae0400'
+FACEBOOK_APP_ID = private_settings.FACEBOOK_APP_ID
+FACEBOOK_APP_SECRET = private_settings.FACEBOOK_APP_SECRET
 FACEBOOK_STORE_LOCAL_IMAGE = False
 FACEBOOK_LOGIN_DEFAULT_REDIRECT = '/'
 # FACEBOOK_DEBUG_REDIRECTS = True
 FACEBOOK_REGISTRATION_BACKEND = 'voterreg.registration_backends.VoterregRegistrationBackend'
 
 LOGIN_URL = '/facebook-login/'
-RECAPTCHA_PUBLIC_KEY = '6Lf7jeISAAAAAJmbwUYyPvJ62vc_0Do-FmvoXMUs'
-RECAPTCHA_PRIVATE_KEY = '6Lf7jeISAAAAAJlBBugurxg47KOUx495Xr7lmwRx'
+RECAPTCHA_PUBLIC_KEY = private_settings.RECAPTCHA_PUBLIC_KEY
+RECAPTCHA_PRIVATE_KEY = private_settings.RECAPTCHA_PRIVATE_KEY
 RECAPTCHA_USE_SSL = True
-
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_HOST = private_settings.EMAIL_HOST
+    EMAIL_HOST_USER = private_settings.EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = private_settings.EMAIL_HOST_PASSWORD
+    DEFAULT_FROM_EMAIL = private_settings.DEFAULT_FROM_EMAIL
+    SERVER_EMAIL = private_settings.SERVER_EMAIL
 
-ADMINS = (
-    ('Suriya Subramanian', 'suriya@alumni.cs.utexas.edu'),
-)
-
+ADMINS = private_settings.ADMINS
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(SETTINGS_DIR, '../sqlite3.db'), # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': os.path.join(SETTINGS_DIR, '../sqlite3.db'), # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',                      # Set to empty string for default.
+        }
     }
-}
+else:
+    DATABASES = private_settings.DATABASES
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -49,7 +55,7 @@ ALLOWED_HOSTS = [ 'saveyourvote.in' ]
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Calcutta'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -59,7 +65,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = not True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -103,7 +109,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '1x++!#)a1k57wrn-hhm4i8x=0k^f)2l!1m1g^#znp464x57!x8'
+SECRET_KEY = private_settings.SECRET_KEY
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -133,10 +139,6 @@ AUTHENTICATION_BACKENDS = (
 
 ANONYMOUS_USER_ID = -1
 AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
-
-# LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-# LOGIN_URL = '/accounts/signin/'
-# LOGOUT_URL = '/accounts/signout/'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
