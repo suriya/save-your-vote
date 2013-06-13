@@ -32,7 +32,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(SETTINGS_DIR, '../../sqlite3.db'), # Or path to database file if using sqlite3.
+        'NAME': os.path.join(SETTINGS_DIR, '../sqlite3.db'), # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -70,7 +70,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(SETTINGS_DIR, '../../media/')
+MEDIA_ROOT = os.path.join(SETTINGS_DIR, '../media/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -81,7 +81,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(SETTINGS_DIR, '../static/')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
