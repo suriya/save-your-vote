@@ -1,0 +1,9 @@
+A Django application that runs http://saveyourvote.in.
+
+If you are a developer, you can help on adding support for interfacing with the
+websites of more state election commissoiners. If you think there are other
+places you can make the website better, feel free to contribute your
+improvements.
+
+If you are a designer, help polish the design. The current design is just a
+default Twitter Bootstrap template.
