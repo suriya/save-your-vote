@@ -1,0 +1,19 @@
+Both the source code and various other directories are maintained in this Git
+repository. Directories needed to run the website are:
+
+    my-env/ - The Virtual Environment.
+    static/ - All static files such as CSS, images, and JS.
+    media/ - Any file uploaded by the user (unused at the moment).
+
+For each directory, the contents are not checked into Git. Only the empty directory is.
+
+# Initializing the directories needed for the website
+
+* my-env/
+    $ Download and extract https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz
+    $ python /path/to/virtualenv.py my-env
+    $ . my-env/bin/activate
+    $ pip install -r requirements.txt
+
+* static/
+    $ ./manage.py collectstatic
