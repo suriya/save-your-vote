@@ -13,9 +13,6 @@ FACEBOOK_LOGIN_DEFAULT_REDIRECT = '/'
 FACEBOOK_REGISTRATION_BACKEND = 'voterreg.registration_backends.VoterregRegistrationBackend'
 
 LOGIN_URL = '/facebook-login/'
-RECAPTCHA_PUBLIC_KEY = private_settings.RECAPTCHA_PUBLIC_KEY
-RECAPTCHA_PRIVATE_KEY = private_settings.RECAPTCHA_PRIVATE_KEY
-RECAPTCHA_USE_SSL = True
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -72,7 +69,7 @@ USE_I18N = not True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -176,14 +173,8 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.flatpages',
     'voterreg',
-    'crispy_forms',
     'bootstrapform',
     'django_facebook',
-    # 'userena',
-    'guardian',
-    # 'registration',
-    # 'easy_thumbnails',
-    'captcha',
 )
 
 # A sample logging configuration. The only tangible logging
