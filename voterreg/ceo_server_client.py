@@ -17,6 +17,7 @@ Communicate with the Chief Electoral Officer's websites of various states.
   "voter_first_name": "Suriya", 
   "voter_last_name": "Subramanian"
 }
+>>> del d
 >>> d = DL_Client.get_voter_info(0, 'XVX0000075')
 >>> print json.dumps(d, sort_keys=True, indent=2)
 {
@@ -32,6 +33,7 @@ Communicate with the Chief Electoral Officer's websites of various states.
   "voter_last_name": "KAUR", 
   "voter_name": "SHISHAN KAUR"
 }
+>>> del d
 >>> d = TN_Client.get_voter_info(0, 'AYR0562041')
 >>> print json.dumps(d, sort_keys=True, indent=2)
 {
@@ -46,6 +48,7 @@ Communicate with the Chief Electoral Officer's websites of various states.
   "voter_last_name": "Sandhiya", 
   "voter_name": "Sandhiya"
 }
+>>> del d
 >>> d = UP_Client.get_voter_info('09', 'KYC1817881')
 >>> print json.dumps(d, sort_keys=True, indent=2)
 {
@@ -61,6 +64,7 @@ Communicate with the Chief Electoral Officer's websites of various states.
   "voter_last_name": "Singh", 
   "voter_name": "Gokul Singh"
 }
+>>> del d
 >>> d = UP_Client.get_voter_info('09', 'UP/75/372/0138500')
 >>> print json.dumps(d, sort_keys=True, indent=2)
 {
@@ -149,7 +153,7 @@ class CEOClient:
     def get_html_data(klass, district_number, epic_string):
         datadict = klass.request_params(district_number, epic_string)
         try:
-            r = requests.post(klass.CEO_URL, datadict, timeout=8)
+            r = requests.post(klass.CEO_URL, datadict, timeout=12)
         except requests.exceptions.ConnectionError as e:
             logger.warning('Error connecting to CEO website: %s' % e)
             raise ConnectionError()
