@@ -1,7 +1,5 @@
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "saveyourvote.settings")
-
 from django.core.exceptions import ObjectDoesNotExist
 from voterreg.models import IndianState, IndianDistrict
 

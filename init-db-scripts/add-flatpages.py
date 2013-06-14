@@ -1,7 +1,4 @@
 
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "saveyourvote.settings")
-
 from django.contrib.sites.models import Site
 from django.contrib.flatpages.models import FlatPage
 from django.conf import settings

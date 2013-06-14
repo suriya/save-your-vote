@@ -1,7 +1,4 @@
 
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "saveyourvote.settings")
-
 import in_states
 from voterreg.models import IndianState
 

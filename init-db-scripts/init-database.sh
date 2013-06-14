@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=`dirname $0`
+SCRIPT_DIR=$(readlink -f `dirname $0`)
 
-MEDIA_DIR=$SCRIPT_DIR/../../media
-rm -rfv $MEDIA_DIR
-mkdir -p $MEDIA_DIR
-rm -fv $SCRIPT_DIR/../../sqlite3.db
+export DJANGO_SETTINGS_MODULE=saveyourvote.settings
+export PYTHONPATH=${SCRIPT_DIR}/../:$PYTHONPATH
+
+# MEDIA_DIR=$SCRIPT_DIR/../../media
+# rm -rfv $MEDIA_DIR
+# mkdir -p $MEDIA_DIR
+rm -fv $SCRIPT_DIR/../sqlite3.db
 $SCRIPT_DIR/../manage.py syncdb --noinput
 python $SCRIPT_DIR/add-states.py
 python $SCRIPT_DIR/add-ka-districts.py
