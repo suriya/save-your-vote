@@ -11,7 +11,7 @@ For each directory, the contents are not checked into Git. Only the empty direct
 
 * my-env/
     $ Download and extract https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz
-    $ python /path/to/virtualenv.py my-env
+    $ python /path/to/virtualenv.py -p /usr/local/bin/python2.7 my-env
     $ . my-env/bin/activate
     $ pip install -r requirements.txt
 

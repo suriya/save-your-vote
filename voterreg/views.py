@@ -8,12 +8,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from models import ExistingVoter, IndianState, IndianDistrict
 from ceo_server_client import CEOClient
 from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
-from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from utils import check_karnataka_epic
 from django.contrib.auth import REDIRECT_FIELD_NAME
 
 class ExistingVoterForm(forms.ModelForm):
