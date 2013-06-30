@@ -27,7 +27,9 @@
             {% endfor %}
         </table>
     {% else %}
-        No voter record found.
+        <p>
+            You have not yet added any voter details to be protected from accidental deletion.
+        </p>
     {% endif %}
         <a href="{% url "epic-new" %}"><button class="btn btn-large
                 btn-primary" type="button">Add another voter record</button></a>

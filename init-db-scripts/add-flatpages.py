@@ -12,6 +12,14 @@ site.name = 'Save Your Vote'
 site.save()
 
 PAGES = [
+('/fp/contact/', 'Contact Us', textwrap.dedent("""
+<h2 class="text-center"> Contact Us </h2>
+<p>
+The best way to contact us is by leaving a comment below or emailing
+info@saveyourvote.in.
+</p>
+""")),
+
 ('/fp/the-missing-voter/', "The missing voter", textwrap.dedent("""
 
 <div class="page-header"> <h1>The missing voter</h1> </div>

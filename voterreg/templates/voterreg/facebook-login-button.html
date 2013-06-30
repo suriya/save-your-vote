@@ -1,6 +1,16 @@
 <form class="text-center" action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-    <button class="btn btn-primary btn-large" type="button"
-        onclick="F.connect(this.parentNode);">
+    {% if request.mobile %}
+        <!-- Doing a redirect for mobile -->
+    {% else %}
+        <!-- Doing a popup for regular browsers -->
+    {% endif %}
+    <button class="btn btn-primary btn-large"
+        {% if request.mobile %}
+            type="submit"
+        {% else %}
+            type="button" onclick="F.connect(this.parentNode);"
+        {% endif %}
+    >
         {% if login_button_text %}
             {{ login_button_text }}
         {% else %}
