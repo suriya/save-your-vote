@@ -1,11 +1,16 @@
 from django.conf.urls import patterns, include, url
 from voterreg.views import facebook_login, home_page
+from django.templatetags.static import static
+from django.views.generic import RedirectView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    # robots.txt
+    url(r'^robots\.txt$', RedirectView.as_view(url=static('voterreg/robots.txt'))),
+
     # Examples:
     url(r'^$', home_page, name='home'),
     url(r'^voterreg/', include('voterreg.urls')),

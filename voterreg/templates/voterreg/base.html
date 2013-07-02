@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="{% static 'voterreg/images/favicon.ico' %}" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <!--
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -11,7 +12,7 @@
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save your Vote : {% block title %}My amazing site{% endblock %}</title>
-    <link href="{{ STATIC_URL }}css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="{% static 'css/facebook.css' %}" type="text/css" rel="stylesheet" media="all" />
     {% block customjs %}{% endblock %}
     {% include 'voterreg/style.css' %}
 </head>
