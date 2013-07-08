@@ -1,0 +1,14 @@
+{% extends "voterreg/base.html" %}
+
+{% block title %}Server error (Error code 400){% endblock %}
+
+{% block content %}
+<div class="row"><div class="span6 offset3 text-center">
+<p class="lead">
+We're sorry :( <br />
+This is embarrassing. <br />
+We ran into some error and are taking a look. <br />
+You can continue by visiting our <a href="{% url 'home' %}">home page</a>.
+</p>
+</div></div>
+{% endblock %}

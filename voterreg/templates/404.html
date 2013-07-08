@@ -1,0 +1,14 @@
+{% extends "voterreg/base.html" %}
+
+{% block title %}Page not found (Error code 404){% endblock %}
+
+{% block content %}
+<div class="row"><div class="span6 offset3 text-center">
+<p class="lead">
+We're sorry :( <br />
+It looks like you tried to access {{request_path}}. <br />
+This page does not exist. <br />
+You can continue by visiting our <a href="{% url 'home' %}">home page</a>.
+</p>
+</div></div>
+{% endblock %}

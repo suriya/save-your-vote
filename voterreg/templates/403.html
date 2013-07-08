@@ -1,0 +1,14 @@
+{% extends "voterreg/base.html" %}
+
+{% block title %}Permission denied (Error code 403){% endblock %}
+
+{% block content %}
+<div class="row"><div class="span6 offset3 text-center">
+<p class="lead">
+We're sorry :( <br />
+You do not have permissions to access this page <br />
+Have you enabled cookies on your browser? <br />
+You can continue by visiting our <a href="{% url 'home' %}">home page</a>.
+</p>
+</div></div>
+{% endblock %}
