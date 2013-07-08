@@ -14,7 +14,7 @@ FACEBOOK_REGISTRATION_BACKEND = 'voterreg.registration_backends.VoterregRegistra
 
 LOGIN_URL = '/facebook-login/'
 
-DEBUG = True
+DEBUG = not True
 TEMPLATE_DEBUG = DEBUG
 
 if DEBUG:
