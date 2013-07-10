@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+# Need to have DJANGO_SETTINGS_MODULE enabled.
+
+from open_facebook.api import FacebookAuthorization
+app_access_token = FacebookAuthorization.get_cached_app_access_token()
+print app_access_token
