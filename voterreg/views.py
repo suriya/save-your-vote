@@ -11,6 +11,8 @@ from django import forms
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.contrib.auth import REDIRECT_FIELD_NAME
+import logging
+logger = logging.getLogger(__name__)
 
 class ExistingVoterForm(forms.ModelForm):
     state = forms.ModelChoiceField(queryset=IndianState.objects.all())

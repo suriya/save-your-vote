@@ -11,6 +11,7 @@ FACEBOOK_STORE_LOCAL_IMAGE = False
 FACEBOOK_LOGIN_DEFAULT_REDIRECT = '/'
 # FACEBOOK_DEBUG_REDIRECTS = True
 FACEBOOK_REGISTRATION_BACKEND = 'voterreg.registration_backends.VoterregRegistrationBackend'
+FACEBOOK_DEFAULT_SCOPE = [ 'publish_stream', 'email', 'user_about_me', 'user_birthday', 'user_website', ]
 
 LOGIN_URL = '/facebook-login/'
 
@@ -218,8 +219,8 @@ LOGGING = {
             'propagate': True,
         },
         'voterreg': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console'] if DEBUG else ['mail_admins'],
+            'level': 'DEBUG' if DEBUG else 'ERROR',
             'propagate': True,
         },
         'open_facebook': {
