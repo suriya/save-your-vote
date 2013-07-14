@@ -1,5 +1,6 @@
 {% extends "voterreg/base.html" %}
 {% block title %}Home Page{% endblock %}
+{% block extraHtmlTags %}xmlns:fb="http://ogp.me/ns/fb#"{% endblock %}
 {% block content %}
 <div class="row"><div class="span6 offset3">
 <div class="page-header"> <h1>Welcome to Save Your Vote</h1> </div>
@@ -26,10 +27,16 @@ family members. <br /> <br />
     {% if user and user.is_authenticated %}
         <a href="{% url 'epic-new' %}"><button class="btn btn-large btn-primary" type="button">Add Voter Information</button></a>
     {% else %}
-        {% include "voterreg/facebook-login-button.html" with login_button_text="Sign in and Add Voter Information" %}
+        {% include "voterreg/facebook-login-button.html" with login_button_text="Login with Facebook and Add Voter Information" %}
     {% endif %}
 </p>
+
+<p class="text-center">
+  <br />
+  <fb:like send="true" width="300" show_faces="true" font="verdana"></fb:like>
+</p>
 </div></div>
+
 
 {% include 'voterreg/disqus.html' %}
 

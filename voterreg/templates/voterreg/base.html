@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html {% block extraHtmlTags %}{% endblock %} lang="en">
 <head>
     <link rel="shortcut icon" href="{% static 'voterreg/images/favicon.ico' %}" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
