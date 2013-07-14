@@ -46,16 +46,18 @@ def epic_new(request):
     url = ('%s?thanks=1' % reverse('epic-info', args=[ voter.pk ]))
     return HttpResponseRedirect(url)
 
+@login_required
 def epic_info(request, pk):
     voter = get_object_or_404(ExistingVoter, pk=pk)
+    if (request.user.pk != voter.created_by.pk):
+        raise PermissionDenied
     thanks = request.GET.get('thanks', False)
     return render(request, 'voterreg/epic-info.html', { 'voter': voter, 'thanks': thanks })
 
-@csrf_protect
 @login_required
 def epic_delete(request, pk):
     voter = get_object_or_404(ExistingVoter, pk=pk)
-    if (request.user.pk is not voter.created_by.pk):
+    if (request.user.pk != voter.created_by.pk):
         raise PermissionDenied
     if request.method == 'POST':
         voter.delete()
